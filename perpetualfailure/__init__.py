@@ -7,7 +7,6 @@ import bleach
 import markdown
 
 import perpetualfailure.db as db
-import perpetualfailure.views.views
 
 
 class RequestFactory(Request):
