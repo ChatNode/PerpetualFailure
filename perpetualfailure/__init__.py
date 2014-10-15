@@ -11,7 +11,7 @@ import perpetualfailure.db as db
 
 class RequestFactory(Request):
     def md(self, text):
-        return bleach.clean(markdown.markdown(text, output_format="html5"), tags=['p', 'hr', 'a', 'code', 'img', 'pre', 'blockquote', 'li', 'lo'])
+        return bleach.clean(markdown.markdown(text, output_format="html5"), tags=['p', 'hr', 'a', 'code', 'img', 'pre', 'blockquote', 'li', 'lo', 'strong', 'em'])
 
 
 def main(global_config, **settings):
