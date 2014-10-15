@@ -1,0 +1,5 @@
+0.0
+---
+
+-  Initalize from scaffold and add Bootstrap, Bourbon, pyramid_scss and
+   some minor scaffold changes.

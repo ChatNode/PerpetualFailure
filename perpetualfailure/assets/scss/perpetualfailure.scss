@@ -1,0 +1,11 @@
+// IDK why but PySCSS fails without this
+@function twbs-font-path($url) {
+    @return $url;
+}
+
+/* Bootstrap initialization */
+$icon-font-path: "/fonts/bootstrap/";
+$icon-font-name: "icons-halflings-regular";
+
+@import "bourbon/bourbon";
+@import "bootstrap/bootstrap";
