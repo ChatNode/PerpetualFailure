@@ -1,5 +1,5 @@
 <%inherit file="/base.mako" />
-<form action="${action_url}" method="post">
+<form action="${request.route_path(request.matched_route.name, path=request.matchdict['path'])}" method="post">
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-8">

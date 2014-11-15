@@ -91,8 +91,7 @@ def createArticle(request):
     r = articleUpdate(request, article, path)
     if isinstance(r, HTTPFound): return r
 
-    url = request.route_path('knowledgebase.article.create', path=request.matchdict['path'])
-    return {"article": article, "action_url": url}
+    return {"article": article}
 
 
 @view_config(
@@ -111,8 +110,7 @@ def editArticle(request):
     r = articleUpdate(request, article, path)
     if isinstance(r, HTTPFound): return r
 
-    url = request.route_path('knowledgebase.article.edit', path=request.matchdict['path'])
-    return {"article": article, "action_url": url}
+    return {"article": article}
 
 
 def articleUpdate(request, article, path, is_new=False):
