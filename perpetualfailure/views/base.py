@@ -4,7 +4,7 @@ from datetime import datetime
 
 from perpetualfailure.db import (
     session,
-    Article,
+    News_Article,
 )
 
 
