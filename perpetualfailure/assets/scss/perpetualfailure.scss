@@ -5,7 +5,9 @@
 
 /* Bootstrap initialization */
 $icon-font-path: "/fonts/bootstrap/";
-$icon-font-name: "icons-halflings-regular";
+$icon-font-name: "glyphicons-halflings-regular";
 
 @import "bourbon/bourbon";
 @import "bootstrap/bootstrap";
+
+@import "bootstrap-extras";

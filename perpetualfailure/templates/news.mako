@@ -1,4 +1,4 @@
-<%inherit file="base.mako" />
+<%inherit file="/base.mako" />
 <div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-8">
