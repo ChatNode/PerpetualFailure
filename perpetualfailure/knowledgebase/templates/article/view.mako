@@ -1,3 +1,4 @@
+<%def name="title()">${article.title} - ChatNode!</%def>
 <%inherit file="/base.mako" />
 <%!
 %>

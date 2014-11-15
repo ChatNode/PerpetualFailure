@@ -1,3 +1,10 @@
+<%def name="title()">\
+%if request.matched_route.name == "knowledgebase.article.create":
+Creating '/kb${request.matchdict['path']}' - ChatNode!\
+%else:
+Editing '${article.title}' - ChatNode!\
+%endif
+</%def>
 <%inherit file="/base.mako" />
 <form action="${request.route_path(request.matched_route.name, path=request.matchdict['path'])}" method="post">
     <div class="row">

@@ -1,3 +1,4 @@
+<%def name="title()">News - ChatNode!</%def>
 <%inherit file="/base.mako" />
 <div class="row">
     <div class="col-md-1"></div>
