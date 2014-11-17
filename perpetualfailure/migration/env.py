@@ -17,6 +17,7 @@ fileConfig(config.config_file_name)
 # target_metadata = mymodel.Base.metadata
 import perpetualfailure.db
 import perpetualfailure.knowledgebase.models
+import perpetualfailure.authn.user
 target_metadata = perpetualfailure.db.Base.metadata
 
 # other values from the config, defined by the needs of env.py,

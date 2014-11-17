@@ -26,7 +26,7 @@ class RequestFactory(Request):
                 suffix = ""
             date.append("%s day%s" % (delta.days, suffix))
 
-        hours = (delta.seconds//3600)%24
+        hours = (delta.seconds//3600) % 24
         if hours > 0:
             if hours != 1:
                 suffix = "s"
@@ -34,7 +34,7 @@ class RequestFactory(Request):
                 suffix = ""
             date.append("%s hour%s" % (hours, suffix))
 
-        minutes = (delta.seconds//60)%60
+        minutes = (delta.seconds//60) % 60
         if minutes != 1:
             suffix = "s"
         else:
@@ -54,8 +54,8 @@ def main(global_config, **settings):
     config = Configurator(settings=settings, request_factory=RequestFactory)
     ## Load and configure all views
     for path in settings['chatnode.modules'].split("\n"):
-        view = __import__(path, fromlist=[path])
-        view.configure(config)
-        config.scan(view)
+        module = __import__(path, fromlist=[path])
+        module.configure(config)
+        config.scan(module)
     #
     return config.make_wsgi_app()
