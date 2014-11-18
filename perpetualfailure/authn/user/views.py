@@ -14,7 +14,8 @@ from perpetualfailure.authn.user import User
 
 @view_config(
     route_name="authentication.login",
-    renderer="auth/user.mako")
+    renderer="auth/user.mako",
+)
 def authentication_login(request):
     # Ensure that Authenticated users aren't logged in.
     if request.session.user:
@@ -43,27 +44,21 @@ def do_login(request):
         log.debug("Failed login attempt from %s: %s.", request.client_addr, logComment)
         return {"error": "Invalid username or password.", "debug": message}
 
-    if request.session.user:
-        return HTTPFound(location=request.route_path("admin.dashboard"))
+    if "password" not in request.POST \
+            or "username" not in request.POST:
+        return HTTPBadRequest()
 
-    if request.method == "POST":
-        if "password" not in request.POST \
-                or "username" not in request.POST:
-            return HTTPBadRequest()
-
-        # Fetch user from database
-        user = session.query(User).filter(User.username == request.POST['username']).first()
-        # Verify that the user exists
-        if not user: return loginError("No such user")
-        # Check if the user actually has a password
-        if not user.hash: return loginError("Empty hash field in model", user.id)
-        # Verify the user's credentials
-        if not request.authn.pass_verify(request.POST['password'], user.hash): return loginError("Hash mismatch", user.id)
-        # Authenticate the user
-        request.session["auth.uid"] = user.id
-        request.authn.remember(request, user.id)
-        log.debug("User #%i logged in from %s.", user.id, request.client_addr)
-        return HTTPFound(location=request.route_path("admin.dashboard"))
-
-    return {}
+    # Fetch user from database
+    user = session.query(User).filter(User.username == request.POST['username']).first()
+    # Verify that the user exists
+    if not user: return loginError("No such user")
+    # Check if the user actually has a password
+    if not user.hash: return loginError("Empty hash field in model", user.id)
+    # Verify the user's credentials
+    if not request.authn.pass_verify(request.POST['password'], user.hash): return loginError("Hash mismatch", user.id)
+    # Authenticate the user
+    request.session["auth.uid"] = user.id
+    request.authn.remember(request, user.id)
+    log.debug("User #%i logged in from %s.", user.id, request.client_addr)
+    return HTTPFound(location=request.route_path("admin.dashboard"))
 

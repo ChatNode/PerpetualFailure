@@ -13,11 +13,18 @@ def configure(config):
     config.add_route('base.news', "/news")
 
 
-@view_config(route_name='base.home', renderer='home.mako')
+@view_config(
+    route_name='base.home',
+    renderer='home.mako',
+)
 def base_home(request):
     return {}
 
-@view_config(route_name='base.news', renderer='news.mako')
+
+@view_config(
+    route_name='base.news',
+    renderer='news.mako',
+)
 def my_view(request):
     if False and "title" in request.params and "content" in request.params:
         article = News_Article()

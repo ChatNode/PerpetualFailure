@@ -73,6 +73,7 @@ def viewArticle(request):
     # Feed the allmighty Mako
     return {"article": article, "parents": parents, "revisions": revision_count}
 
+
 @view_config(
     route_name='knowledgebase.article.create',
     renderer='article/edit.mako',
