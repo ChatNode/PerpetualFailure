@@ -3,6 +3,11 @@ from datetime import datetime
 from pyramid.config import Configurator
 from pyramid.decorator import reify
 from pyramid.request import Request
+from pyramid.security import (
+    Allow,
+    Authenticated,
+)
+from pyramid.authorization import ACLAuthorizationPolicy
 from sqlalchemy import engine_from_config
 
 import bleach
@@ -26,7 +31,7 @@ class RequestFactory(Request):
                 suffix = ""
             date.append("%s day%s" % (delta.days, suffix))
 
-        hours = (delta.seconds//3600)%24
+        hours = (delta.seconds//3600) % 24
         if hours > 0:
             if hours != 1:
                 suffix = "s"
@@ -34,7 +39,7 @@ class RequestFactory(Request):
                 suffix = ""
             date.append("%s hour%s" % (hours, suffix))
 
-        minutes = (delta.seconds//60)%60
+        minutes = (delta.seconds//60) % 60
         if minutes != 1:
             suffix = "s"
         else:
@@ -44,6 +49,24 @@ class RequestFactory(Request):
         return ", ".join(date)
 
 
+class Root(object):
+    __acl__ = [
+        (Allow, Authenticated, Authenticated),
+    ]
+
+    def __init__(self, request):
+        self.request = request
+
+
+def request_test_permission(request, permission, context=None):
+    """Short-hand method for testing permissions against the current user.
+    By default this uses the context given by the request but this can be
+    overridden through the context argument."""
+    if not context:
+        context = request.context
+    return request.authz.permits(context, request.authn.effective_principals(request), permission)
+
+
 def main(global_config, **settings):
     ## Prepare database
     engine = engine_from_config(settings, 'sqlalchemy.')
@@ -51,11 +74,24 @@ def main(global_config, **settings):
     db.Base.metadata.bind = engine
     #
 
-    config = Configurator(settings=settings, request_factory=RequestFactory)
+    # FIXME: Pyramid whines about no configured authorization policy, probably
+    # because we didn't set authn policy using the Configurator initializer.
+    authz_policy = ACLAuthorizationPolicy()
+
+    config = Configurator(
+        settings=settings,
+        root_factory=Root,
+        request_factory=RequestFactory,
+        authorization_policy=authz_policy,
+    )
+    # Expose the authorization policy through requests.
+    config.add_request_method(lambda x: authz_policy, "authz", reify=True)
+    # Provide a short-hand method for testing permissions.
+    config.add_request_method(request_test_permission, "permits")
     ## Load and configure all views
     for path in settings['chatnode.modules'].split("\n"):
-        view = __import__(path, fromlist=[path])
-        view.configure(config)
-        config.scan(view)
+        module = __import__(path, fromlist=[path])
+        module.configure(config)
+        config.scan(module)
     #
     return config.make_wsgi_app()

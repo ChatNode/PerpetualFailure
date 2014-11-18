@@ -2,6 +2,8 @@ from datetime import datetime
 import logging
 log = logging.getLogger(__name__)
 
+from pyramid.authentication import Authenticated
+from pyramid.authorization import Allow
 from sqlalchemy import (
     Column,
     DateTime,
@@ -22,6 +24,11 @@ revision_rel = Table('knowledgebase_article_rel_revision', Base.metadata,
 
 
 class KB_Article(Base):
+    __acl__ = [
+        (Allow, Authenticated, "edit"),
+        (Allow, Authenticated, "create"),
+    ]
+
     __tablename__ = "knowledgebase_article"
     id = Column(Integer, primary_key=True)
 
