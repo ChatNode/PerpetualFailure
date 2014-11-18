@@ -41,7 +41,7 @@ def do_login(request):
     def loginError(message, uid=None):
         logComment = "%s (#%i)" % (message, uid) if uid else message
         log.debug("Failed login attempt from %s: %s.", request.client_addr, logComment)
-        return {"error": "Invalid username or password", "debug": message}
+        return {"error": "Invalid username or password.", "debug": message}
 
     if request.session.user:
         return HTTPFound(location=request.route_path("admin.dashboard"))
