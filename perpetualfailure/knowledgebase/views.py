@@ -1,6 +1,7 @@
 from pyramid.httpexceptions import (
     HTTPFound,
     HTTPNotFound,
+    HTTPBadRequest,
     HTTPConflict,
 )
 from pyramid.security import Authenticated
@@ -47,7 +48,7 @@ def traverse(path_, page=None, parents=None):
 
 @view_config(
     route_name='knowledgebase.article.view',
-    renderer='article/view.mako',
+    renderer='knowledgebase/article/view.mako',
 )
 def viewArticle(request):
     path = request.matchdict['path']
@@ -76,7 +77,7 @@ def viewArticle(request):
 
 @view_config(
     route_name='knowledgebase.article.create',
-    renderer='article/edit.mako',
+    renderer='knowledgebase/article/edit.mako',
     # TODO: Add a factory and use the "create" permission.
     permission=Authenticated,
 )
@@ -102,7 +103,7 @@ def createArticle(request):
 
 @view_config(
     route_name='knowledgebase.article.edit',
-    renderer='article/edit.mako',
+    renderer='knowledgebase/article/edit.mako',
     # TODO: Add a factory and use the "edit" permission.
     permission=Authenticated,
 )
@@ -123,26 +124,32 @@ def editArticle(request):
 
 
 def articleUpdate(request, article, path, is_new=False):
-    if request.method == 'POST':
-        article.title = request.POST['title']
-        article.name = path[-1]
-        article.content = request.POST['content']
-        # Update the parent of this object
-        if len(path) > 1:
-            article.parent = traverse(path[:-1])[0]
-        elif article.parent:
-            # This is a root article but it's got a parent, remove the parent
-            # from this article object.
-            article.parent = None
+    if not request.method == "POST":
+        return None
 
-        curr_rev = KB_ArticleRevision(article)
-        prev_rev = article.revision
-        if prev_rev:
-            prev_rev.children.append(curr_rev)
-            session.add(prev_rev)
-        session.add(curr_rev)
-        article.revision = curr_rev
+    for key in ['title', 'content']:
+        if key not in request.method:
+            return HTTPBadRequest()
 
-        session.add(article)
-        return HTTPFound(location=request.route_path('knowledgebase.article.view', path=request.matchdict['path']))
+    article.title = request.POST['title']
+    article.name = path[-1]
+    article.content = request.POST['content']
+    # Update the parent of this object
+    if len(path) > 1:
+        article.parent = traverse(path[:-1])[0]
+    elif article.parent:
+        # This is a root article but it's got a parent, remove the parent
+        # from this article object.
+        article.parent = None
+
+    curr_rev = KB_ArticleRevision(article)
+    prev_rev = article.revision
+    if prev_rev:
+        prev_rev.children.append(curr_rev)
+        session.add(prev_rev)
+    session.add(curr_rev)
+    article.revision = curr_rev
+
+    session.add(article)
+    return HTTPFound(location=request.route_path('knowledgebase.article.view', path=request.matchdict['path']))
 

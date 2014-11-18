@@ -53,9 +53,20 @@ class Root(object):
     __acl__ = [
         (Allow, Authenticated, Authenticated),
     ]
+    nodes = {}
 
     def __init__(self, request):
         self.request = request
+
+    @classmethod
+    def add_node(cls, name, obj):
+        cls.nodes[name] = obj
+
+    def __getitem__(self, key):
+        node = self.nodes[key]
+        node.__parent__ = self
+        node.__name__ = key
+        return node
 
 
 def request_test_permission(request, permission, context=None):
@@ -86,6 +97,8 @@ def main(global_config, **settings):
     )
     # Expose the authorization policy through requests.
     config.add_request_method(lambda x: authz_policy, "authz", reify=True)
+    # Add a configurator method to add new nodes to the root factory
+    config.add_directive("add_root_node", Root.add_node, action_wrap=False)
     # Provide a short-hand method for testing permissions.
     config.add_request_method(request_test_permission, "permits")
     ## Load and configure all views
