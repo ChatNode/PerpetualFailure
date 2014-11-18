@@ -3,6 +3,7 @@ from pyramid.authentication import (
     Everyone,
     SessionAuthenticationPolicy,
 )
+from pyramid.authorization import Allow
 from pyramid.events import (
     NewRequest,
     subscriber,
@@ -27,23 +28,20 @@ def configure(config):
     def get_policy(request):
         return policy
     config.add_request_method(get_policy, "authn", reify=True)
-    # FIXME: Pyramid bitches about no configured authorization policy, probably
-    # because we didn't set authn policy using the Configurator initializer.
-    config.set_authorization_policy('pyramid.authorization.ACLAuthorizationPolicy')
 
-    config.add_route('authentication.login', "/admin/login")
-    config.add_route('authentication.logout', "/admin/logout")
+    config.add_route('authentication.login', "/acp/login")
+    config.add_route('authentication.logout', "/acp/logout")
 
 
 @subscriber(NewRequest)
-def requestPrepareSession(event):
+def request_session_inject_user(event):
     request = event.request
     request.session.user = None
 
     uid = request.authn.authenticated_userid(request)
     if uid:
         request.session.user = session.query(User) \
-            .filter(User.id == id).first()
+            .filter(User.id == uid).first()
 
 
 class User(Base):
@@ -52,6 +50,14 @@ class User(Base):
     id = Column(Integer, primary_key=True, nullable=False)
     username = Column(Text, nullable=False)
     hash = Column(Text)
+
+    @property
+    def __acl__(self):
+        return [
+            (Allow, "u:%i" % self.id, "edit"),
+            (Allow, "g:admin", "edit"),
+        ]
+
 
 
 class UserAuthenticationPolicy(SessionAuthenticationPolicy):

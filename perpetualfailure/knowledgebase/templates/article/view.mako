@@ -5,7 +5,11 @@
 <div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-8">
-        <h1>${article.title} <small><a href="${request.route_path("knowledgebase.article.edit", path=article.path())}"><span class="glyphicon glyphicon-small glyphicon-pencil"></span></a></small></h1>
+        <h1>${article.title} <small>\
+%if request.permits("edit", context=article):
+<a href="${request.route_path("knowledgebase.article.edit", path=article.path())}"><span class="glyphicon glyphicon-small glyphicon-pencil"></span></a>\
+%endif
+</small></h1>
     </div>
 </div>
 <div class="row">

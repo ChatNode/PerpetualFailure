@@ -3,6 +3,7 @@ from pyramid.httpexceptions import (
     HTTPNotFound,
     HTTPConflict,
 )
+from pyramid.security import Authenticated
 from pyramid.view import view_config
 
 from perpetualfailure.db import session
@@ -46,7 +47,8 @@ def traverse(path_, page=None, parents=None):
 
 @view_config(
     route_name='knowledgebase.article.view',
-    renderer='article/view.mako')
+    renderer='article/view.mako',
+)
 def viewArticle(request):
     path = request.matchdict['path']
     # Check whether we're trying to load the index or not
@@ -73,7 +75,10 @@ def viewArticle(request):
 
 @view_config(
     route_name='knowledgebase.article.create',
-    renderer='article/edit.mako')
+    renderer='article/edit.mako',
+    # TODO: Add a factory and use the "create" permission.
+    permission=Authenticated,
+)
 def createArticle(request):
     article = KB_Article()
     # Construct a list from the path given in the route URL
@@ -96,7 +101,10 @@ def createArticle(request):
 
 @view_config(
     route_name='knowledgebase.article.edit',
-    renderer='article/edit.mako')
+    renderer='article/edit.mako',
+    # TODO: Add a factory and use the "edit" permission.
+    permission=Authenticated,
+)
 def editArticle(request):
     # Construct a list from the path given in the route URL
     path = request.matchdict['path'].split("/")
