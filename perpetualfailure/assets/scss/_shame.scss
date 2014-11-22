@@ -1,0 +1,9 @@
+/*
+ * Workaround to add styling to Markdown-generated tables.
+ * This can probably be fixed through bleach, by forcing class="table"
+ * if the class attribute doesn't exist.
+ */
+table {
+    @extend .table;
+    @extend .table-striped;
+}
