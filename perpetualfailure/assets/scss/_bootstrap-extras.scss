@@ -39,3 +39,9 @@
 .glyphicon-small, a .glyphicon-small {
     color: gray;
 }
+
+
+table {
+    @extend .table;
+    @extend .table-striped;
+}
