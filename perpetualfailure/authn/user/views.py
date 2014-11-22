@@ -60,5 +60,5 @@ def do_login(request):
     request.session["auth.userid"] = user.id
     request.authn.remember(request, user.id)
     log.debug("User #%i logged in from %s.", user.id, request.client_addr)
-    return HTTPFound(location=request.route_path("admin.dashboard"))
+    return HTTPFound(location=request.route_path("base.home"))
 
