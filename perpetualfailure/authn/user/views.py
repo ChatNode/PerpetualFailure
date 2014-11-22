@@ -57,7 +57,7 @@ def do_login(request):
     # Verify the user's credentials
     if not request.authn.pass_verify(request.POST['password'], user.hash): return loginError("Hash mismatch", user.id)
     # Authenticate the user
-    request.session["auth.uid"] = user.id
+    request.session["auth.userid"] = user.id
     request.authn.remember(request, user.id)
     log.debug("User #%i logged in from %s.", user.id, request.client_addr)
     return HTTPFound(location=request.route_path("admin.dashboard"))

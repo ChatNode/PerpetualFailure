@@ -2,6 +2,7 @@ from datetime import datetime
 
 from pyramid.view import view_config
 from pyramid.httpexceptions import (
+    HTTPException,
     HTTPBadRequest,
     HTTPFound,
     HTTPNotFound,
@@ -32,12 +33,9 @@ def article_browse(request):
     permission='view',
 )
 def article_view(request):
-    article = session.query(News_Article).filter(News_Article.id == request.matchdict['id']).one()
-
-    r = articleUpdate(request, article)
-    if r:
-        return r
-
+    article = session.query(News_Article).filter(News_Article.id == request.matchdict['id']).first()
+    if not article:
+        return HTTPNotFound()
     return {"article": article}
 
 
@@ -48,6 +46,11 @@ def article_view(request):
 )
 def article_edit(request):
     article = session.query(News_Article).filter(News_Article.id == request.matchdict['id']).first()
+
+    r = articleUpdate(request, article)
+    if isinstance(r, HTTPException):
+        return r
+
     return {"article": article}
 
 
@@ -60,7 +63,7 @@ def article_create(request):
     article = News_Article()
 
     r = articleUpdate(request, article)
-    if r:
+    if isinstance(r, HTTPException):
         return r
 
     return {"article": article}

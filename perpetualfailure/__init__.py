@@ -17,8 +17,10 @@ import perpetualfailure.db as db
 
 
 class RequestFactory(Request):
+    markdown = markdown.Markdown(output_format="html5", extensions=['markdown.extensions.extra'])
+
     def md(self, text):
-        return bleach.clean(markdown.markdown(text, output_format="html5"), tags=['p', 'hr', 'a', 'code', 'img', 'pre', 'blockquote', 'li', 'lo', 'strong', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'], attributes={"a":["href"],"img":['src','alt']})
+        return bleach.clean(self.markdown.convert(text), tags=['p', "table", "thead", "tr", "th", "td", "tbody", 'hr', 'a', 'code', 'img', 'pre', 'blockquote', 'li', 'lo', 'strong', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'], attributes={"a":["href"], "table":["class"],"img":['src','alt']})
 
     def relative_date(self, time):
         # TODO: Move this to somewhere else.

@@ -1,4 +1,5 @@
 from pyramid.httpexceptions import (
+    HTTPException,
     HTTPFound,
     HTTPNotFound,
     HTTPBadRequest,
@@ -96,7 +97,7 @@ def createArticle(request):
 
     # Validate data and if appropriate update and redirect.
     r = articleUpdate(request, article, path)
-    if isinstance(r, HTTPFound): return r
+    if isinstance(r, HTTPException): return r
 
     return {"article": article}
 
@@ -118,7 +119,7 @@ def editArticle(request):
 
     # Validate data and if appropriate update and redirect.
     r = articleUpdate(request, article, path)
-    if isinstance(r, HTTPFound): return r
+    if isinstance(r, HTTPException): return r
 
     return {"article": article}
 
@@ -128,7 +129,7 @@ def articleUpdate(request, article, path, is_new=False):
         return None
 
     for key in ['title', 'content']:
-        if key not in request.method:
+        if key not in request.POST:
             return HTTPBadRequest()
 
     article.title = request.POST['title']
