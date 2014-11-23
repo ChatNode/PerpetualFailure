@@ -16,7 +16,7 @@
     <div class="col-md-1"></div>
     <div class="col-md-8">
         <ol class="breadcrumb">
-            %for article_ in sorted(parents, key=lambda x: x.title.lower()):
+            %for article_ in parents:
             <li><a href="${request.route_path("knowledgebase.article.view", path=article_.path())}">${article_.title}</a></li>
             %endfor
             <li class="active">${article.title}</li>
@@ -35,7 +35,7 @@
             </div>
             <div class="panel-body panel-table">
                 <ul>
-                    %for article_ in article.children:
+                    %for article_ in sorted(article.children, key=lambda x: x.title.lower()):
                     <li><a href="${request.route_path("knowledgebase.article.view", path=article_.path())}">${article_.title}</a></li>
                     %endfor
                 </ul>
