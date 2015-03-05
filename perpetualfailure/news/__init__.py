@@ -26,7 +26,7 @@ def configure(config):
     config.add_route("news.article.view", "/article/{id:[0-9]+}", traverse="/news")
     # Match /article and /article/p{page}
     config.add_route("news.article.browse", "/article", traverse="/news")
-    config.add_route("news.article.browse.paged", "/article{page:(/(p[0-9]+)?)?}", traverse="/news")
+    config.add_route("news.article.browse.paged", "/article/p{page:[0-9]+}", traverse="/news")
 
     config.add_route("news.article.list", "/acp/article", traverse="/news")
     config.add_route("news.article.create", "/acp/article/create", traverse="/news")

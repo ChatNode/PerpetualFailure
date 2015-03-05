@@ -15,5 +15,15 @@
         </div>
         <hr />
         %endfor
+        <nav>
+            <ul class="pager">\
+%if has_older_page:
+                <li class="previous"><a href="${request.route_path("news.article.browse.paged", page=int(request.matchdict['page']) + 1)}"><span aria-hidden="true">&larr;</span> Older</a></li>
+%endif
+%if request.matchdict['page'] != '0':
+                <li class="next"><a href="${request.route_path("news.article.browse.paged", page=int(request.matchdict['page']) - 1)}">Newer <span aria-hidden="true">&rarr;</span></a></li>
+%endif
+            </ul>
+        </nav>
     </div>
 </div>

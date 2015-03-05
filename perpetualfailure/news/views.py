@@ -23,8 +23,23 @@ from perpetualfailure.news.models import News_Article
     permission='browse',
 )
 def article_browse(request):
-    news = session.query(News_Article).order_by(News_Article.date.desc()).all()
-    return {"news": news}
+    perPage = 10
+
+    news = session.query(News_Article).order_by(News_Article.date.desc())
+
+    if 'page' in request.matchdict:
+        page = int(request.matchdict['page'])
+        offset = page * perPage
+        offset = max(0, offset)
+        request.matchdict['offset'] = offset
+        older_page = news.offset(offset + perPage).first()
+        news = news.offset(offset)
+    else:
+        request.matchdict['page'] = '0'
+        older_page = news.offset(perPage).first()
+    news = news.limit(10)
+
+    return {"news": news.all(), "has_older_page": (older_page is not None)}
 
 
 @view_config(
