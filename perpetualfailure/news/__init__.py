@@ -23,6 +23,8 @@ root = NewsRoot()
 def configure(config):
     config.add_root_node("news", root)
 
+    config.add_navigation_link(route="news.article.browse", text="News")
+
     config.add_route("news.article.view", "/article/{id:[0-9]+}", traverse="/news")
     # Match /article and /article/p{page}
     config.add_route("news.article.browse", "/article", traverse="/news")

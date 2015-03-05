@@ -1,3 +1,4 @@
+<%namespace name="navigation" file="navbar.mako" />
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -29,20 +30,7 @@
                 </div>
                 <div class="collapse navbar-collapse" id="chatnode-navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="${request.route_path("news.article.browse")}">News</a></li>
-                        <li><a href="${request.route_path("knowledgebase.article.view", path="")}">Knowledge base</a></li>
-                        <!--
-                        <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Stats <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Channels</a></li>
-                                <li><a href="#">Users</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">Operators</a></li>
-                                <li><a href="#">Servers</a></li>
-                            </ul>
-                        </li>
-                        -->
+                        ${navigation.render(request, request.navigation['navbar-left'])}\
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         %if request.session.user:
