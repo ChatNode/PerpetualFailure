@@ -14,6 +14,18 @@ class Link(Element):
         self.args = args
 
 
+class Menu(Element):
+    def __init__(self, text, children, route=None, **args):
+        self.route = route
+        self.text = text
+        self.args = args
+        self.children = children
+
+
+class Divider(Element):
+    pass
+
+
 # Dictionary to hold navigation instances. Gets added to each request.
 navigation = {
     "navbar-left": Navigation(),
@@ -28,3 +40,9 @@ def configure(config):
             navigation[nav] = Navigation()
         navigation[nav].children.append(Link(**args))
     config.add_directive("add_navigation_link", add_link, action_wrap=False)
+
+    def add_menu(config, nav="navbar-left", **args):
+        if nav not in navigation:
+            navigation[nav] = Navigation()
+        navigation[nav].children.append(Menu(**args))
+    config.add_directive("add_navigation_menu", add_menu, action_wrap=False)
