@@ -15,8 +15,7 @@ class Link(Element):
 
 
 class Menu(Element):
-    def __init__(self, text, children, route=None, **args):
-        self.route = route
+    def __init__(self, text, children, **args):
         self.text = text
         self.args = args
         self.children = children
