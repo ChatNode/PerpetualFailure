@@ -1,16 +1,17 @@
 perpetualfailure README
 ==================
+[![Dependency Status](https://www.versioneye.com/user/projects/54f963344f31084fdc000215/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54f963344f31084fdc000215)
 
 Getting Started
 ---------------
 
-- cd <directory containing this file>
+- `cd <directory containing this file>`
 
-- $VENV/bin/python setup.py develop
+- `$VENV/bin/python setup.py develop`
 
-- $VENV/bin/initialize_perpetualfailure_db development.ini
+- `$VENV/bin/initialize_perpetualfailure_db development.ini`
 
-- $VENV/bin/pserve development.ini
+- `$VENV/bin/pserve development.ini`
 
 Licensing
 ---------
