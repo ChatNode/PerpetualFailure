@@ -104,7 +104,7 @@ def main(global_config, **settings):
     # Provide a short-hand method for testing permissions.
     config.add_request_method(request_test_permission, "permits")
     ## Load and configure all views
-    for path in settings['chatnode.modules'].split("\n"):
+    for path in settings['perpetualfailure.modules'].split("\n"):
         module = __import__(path, fromlist=[path])
         module.configure(config)
         config.scan(module)
