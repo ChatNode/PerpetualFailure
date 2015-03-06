@@ -9,15 +9,25 @@ with open(os.path.join(here, 'CHANGES.txt')) as f:
     CHANGES = f.read()
 
 requires = [
-    'pyramid',
+    'pyramid>=1.5.1',
     'pyramid_chameleon',
     'pyramid_debugtoolbar',
     'pyramid_tm',
-    'SQLAlchemy',
     'transaction',
-    'zope.sqlalchemy',
+    'zope.sqlalchemy>=0.7.5',
     'waitress',
-    ]
+    # Perpetual Failure-specific dependencies
+    'Markdown>=2.5.1',
+    'SQLAlchemy>=0.9.8',
+    'bleach>=1.4',
+    'pyramid-mako>=1.0.2',
+    'pyramid-scss>=0.4',
+    'passlib>=1.6.2',
+    'pyramid-beaker>=0.8',
+    # Should be made into optional dependencies
+    'psycopg2>=2.5.4',
+    'py-bcrypt>=0.4',
+]
 
 setup(name='perpetualfailure',
       version='0.0',
