@@ -26,7 +26,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="${request.route_path("base.home")}">ChatNode!</a>
+                    <a class="navbar-brand" href="${request.route_path("base.home")}">${request.registry.settings['perpetualfailure.sitename']}</a>
                 </div>
                 <div class="collapse navbar-collapse" id="chatnode-navbar-collapse">
                     <ul class="nav navbar-nav">

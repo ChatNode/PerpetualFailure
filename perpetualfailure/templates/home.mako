@@ -1,4 +1,4 @@
-<%def name="title()">ChatNode!</%def>
+<%def name="title()">${request.registry.settings['perpetualfailure.sitename']}</%def>
 <%inherit file="/base.mako" />
 <div class="row">
     <div class="col-md-1"></div>
