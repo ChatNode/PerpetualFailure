@@ -8,3 +8,6 @@ def configure(config):
     config.add_route('knowledgebase.article.edit', "/acp/kb/edit{path:%s}" % regex_kb_path)
     config.add_route('knowledgebase.article.create', "/acp/kb/create{path:%s}" % regex_kb_path)
 
+    config.add_route('knowledgebase.revision.list', "/acp/kb/revision{id:[0-9]*}")
+    config.add_route('knowledgebase.revision.compare', "/acp/kb/compare/{base:[0-9]+}...{head:[0-9]+}")
+
