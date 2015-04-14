@@ -44,7 +44,7 @@ setup(
         'zope.sqlalchemy>=0.7.5',
         'waitress',
         # Perpetual Failure-specific dependencies
-        'Markdown>=2.5.1',
+        'Markdown>=2.6.1',
         'SQLAlchemy>=0.9.8',
         'bleach>=1.4',
         'pyramid-mako>=1.0.2',
