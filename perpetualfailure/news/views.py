@@ -37,7 +37,7 @@ def article_browse(request):
     else:
         request.matchdict['page'] = '0'
         older_page = news.offset(perPage).first()
-    news = news.limit(10)
+    news = news.limit(perPage)
 
     return {"news": news.all(), "has_older_page": (older_page is not None)}
 
