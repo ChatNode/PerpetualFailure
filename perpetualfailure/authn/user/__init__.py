@@ -32,6 +32,12 @@ def configure(config):
     config.add_route('authentication.login', "/acp/login")
     config.add_route('authentication.logout', "/acp/logout")
 
+    if "route_login_return" not in config.registry.settings:
+        config.registry.settings["route_login_return"] = "admin.dashboard"
+
+    if "route_logout_return" not in config.registry.settings:
+        config.registry.settings["route_logout_return"] = "base.home"
+
 
 @subscriber(NewRequest)
 def request_session_inject_user(event):

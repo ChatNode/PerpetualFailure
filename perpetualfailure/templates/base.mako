@@ -34,9 +34,10 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         %if request.session.user:
-                        <li><a href="${request.route_path("authentication.logout")}">Log out</a></li>
+                        <li><a href="${request.route_path("admin.dashboard")}"><i class="glyphicon glyphicon-dashboard"></i></a></li>
+                        <li><a href="${request.route_path("authentication.logout")}"><i class="glyphicon glyphicon-log-out"></i></a></li>
                         %else:
-                        <li><a href="${request.route_path("authentication.login")}">Log in</a></li>
+                        <li><a href="${request.route_path("authentication.login")}"><i class="glyphicon glyphicon-log-in"></i></a></li>
                         %endif
                     </ul>
                 </div>

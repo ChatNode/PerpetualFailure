@@ -8,16 +8,18 @@ class Element(object):
 
 
 class Link(Element):
-    def __init__(self, route, text, **args):
+    def __init__(self, route, text, icon=None, **args):
         self.route = route
         self.text = text
+        self.icon = icon
         self.args = args
 
 
 class Menu(Element):
-    def __init__(self, text, children, **args):
+    def __init__(self, text, children, icon=None, **args):
         self.text = text
         self.args = args
+        self.icon = icon
         self.children = children
 
 
@@ -28,6 +30,7 @@ class Divider(Element):
 # Dictionary to hold navigation instances. Gets added to each request.
 navigation = {
     "navbar-left": Navigation(),
+    "acp": Navigation(),
 }
 
 
@@ -45,3 +48,5 @@ def configure(config):
             navigation[nav] = Navigation()
         navigation[nav].children.append(Menu(**args))
     config.add_directive("add_navigation_menu", add_menu, action_wrap=False)
+
+    config.add_navigation_link(nav="acp", icon="dashboard", route="admin.dashboard", text="Dashboard")

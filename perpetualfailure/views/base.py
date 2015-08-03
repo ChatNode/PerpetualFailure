@@ -5,6 +5,7 @@ from datetime import datetime
 
 def configure(config):
     config.add_route('base.home', "/")
+    config.add_route('admin.dashboard', "/acp")
 
 
 @view_config(
@@ -12,5 +13,12 @@ def configure(config):
     renderer='home.mako',
 )
 def base_home(request):
+    return {}
+
+@view_config(
+    route_name='admin.dashboard',
+    renderer='acp/dashboard.mako',
+)
+def admin_dashboard(request):
     return {}
 

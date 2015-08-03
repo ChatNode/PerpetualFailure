@@ -33,7 +33,7 @@ ${render_menu(el)}
 %endif
 ${el.text}</a></li></%def>
 
-<%def name="render_menu(el)"><li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">\
+<%def name="render_menu(el)"><li><div><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">\
 %if el.icon:
 <i class="glyphicon glyphicon-${el.icon|u}"></i> \
 %endif
@@ -42,5 +42,5 @@ ${el.text} <span class="caret"></span></a>
 %for child in el.children:
 ${render_el(child, do_menu=False)}\
 %endfor
-</ul>
+</ul></div>
 </li></%def>

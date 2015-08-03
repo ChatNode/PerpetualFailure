@@ -9,7 +9,13 @@ $icon-font-name: "glyphicons-halflings-regular";
 
 @import "bourbon/bourbon";
 @import "bootstrap/bootstrap";
+@import "sidebar";
 
 @import "bootstrap-extras";
 
-@import "shame"
+@import "shame";
+
+// Sizing for Glyphicons used as navbar links
+.navbar-nav > li > a > .glyphicon {
+    font-size: 16px;
+}
