@@ -1,4 +1,5 @@
 from pyramid.response import Response
+from pyramid.security import Authenticated
 from pyramid.view import view_config
 from datetime import datetime
 
@@ -18,6 +19,7 @@ def base_home(request):
 @view_config(
     route_name='admin.dashboard',
     renderer='acp/dashboard.mako',
+    permission=Authenticated,
 )
 def admin_dashboard(request):
     return {}
