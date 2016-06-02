@@ -1,0 +1,40 @@
+.sidebar
+  background-color: $navbar-default-bg
+  border-right-color: $navbar-default-border
+  border-right-width: 1px
+  border-right-style: solid
+  border-bottom-color: $navbar-default-border
+  border-bottom-width: 1px
+  border-bottom-style: solid
+  border-bottom-right-radius: 5px
+  padding-left: 0px
+  list-style-type: none
+  // Adjust for navbar margin
+  margin-top: -20px
+  // Icon tweaking
+  .glyphicon
+    font-size: 12px
+    top: 0px
+  .dropdown-menu .glyphicon
+    left: -4px
+  //
+  &> li
+    // Disable those stupid bullets
+    list-style-type: none
+    // Sizing
+    padding: 15px
+    width: 100%
+    // Colors
+    &> a, &> div > a
+      color: $navbar-default-link-color
+      text-decoration: none
+      &:hover
+        color: $navbar-default-link-hover-color
+        background-color: $navbar-default-link-hover-bg
+    // Shame: Work-around for dropdowns opening at the bottom of the sidebar.
+    &> div
+      position: relative
+
+.col-sidebar > .sidebar
+  margin-left: -44px
+

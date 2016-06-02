@@ -27,9 +27,17 @@ ${render_menu(el)}
 </%def>
 
 
-<%def name="render_link(el)"><li><a href="${request.route_path(el.route, **el.args)}">${el.text}</a></li></%def>
+<%def name="render_link(el)"><li><a href="${request.route_path(el.route, **el.args)}">\
+%if el.icon:
+<i class="glyphicon glyphicon-${el.icon|u}"></i> \
+%endif
+${el.text}</a></li></%def>
 
-<%def name="render_menu(el)"><li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">${el.text} <span class="caret"></span></a>
+<%def name="render_menu(el)"><li><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">\
+%if el.icon:
+<i class="glyphicon glyphicon-${el.icon|u}"></i> \
+%endif
+${el.text} <span class="caret"></span></a>
 <ul class="dropdown-menu">
 %for child in el.children:
 ${render_el(child, do_menu=False)}\

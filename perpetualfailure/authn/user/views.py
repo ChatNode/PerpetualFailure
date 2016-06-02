@@ -19,7 +19,8 @@ from perpetualfailure.authn.user import User
 def authentication_login(request):
     # Ensure that Authenticated users aren't logged in.
     if request.session.user:
-        return HTTPFound(location=request.route_path("admin.dashboard"))
+        return HTTPFound(location=request.route_path(
+            request.registry.settings["route_login_return"]))
     # Pass on login requests.
     if request.POST:
         return do_login(request)
@@ -35,7 +36,8 @@ def autentication_logout(request):
         return HTTPForbidden()
 
     headers = request.authn.forget(request)
-    return HTTPFound(location=request.route_path("base.home"), headers=headers)
+    return HTTPFound(location=request.route_path(
+        request.registry.settings["route_logout_return"]), headers=headers)
 
 
 def do_login(request):
@@ -60,5 +62,6 @@ def do_login(request):
     request.session["auth.userid"] = user.id
     request.authn.remember(request, user.id)
     log.debug("User #%i logged in from %s.", user.id, request.client_addr)
-    return HTTPFound(location=request.route_path("base.home"))
+    return HTTPFound(location=request.route_path(
+        request.registry.settings["route_login_return"]))
 

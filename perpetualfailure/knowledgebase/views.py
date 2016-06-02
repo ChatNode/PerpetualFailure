@@ -154,3 +154,33 @@ def articleUpdate(request, article, path, is_new=False):
     session.add(article)
     return HTTPFound(location=request.route_path('knowledgebase.article.view', path=request.matchdict['path']))
 
+
+@view_config(
+    route_name='knowledgebase.revision.compare',
+    renderer='knowledgebase/revision/compare.mako',
+)
+def compareRevisions(request):
+    base = getRevisionFromMatchdict(request, "base")
+    head = getRevisionFromMatchdict(request, "head")
+
+    baseText = ""
+    if base:
+        baseText = base.content.split("\n")
+    headText = ""
+    if head:
+        headText = head.content.split("\n")
+
+    baseFile = "article/%s/revision/%s" % (base.article.id, base.id)
+    headFile = "article/%s/revision/%s" % (head.article.id, head.id)
+
+    diff = "\n".join(list(difflib.unified_diff(baseText, headText, baseFile, headFile)))
+
+    return {"raw_diff": diff, "base": base, "head": head, "baseFile": baseFile,
+            "headFile": headFile}
+
+
+def getRevisionFromMatchdict(request, key):
+    id = request.matchdict[key]
+    revision = session.query(KB_ArticleRevision) \
+        .filter(KB_ArticleRevision.id == id).first()
+    return revision

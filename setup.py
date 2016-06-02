@@ -37,20 +37,22 @@ setup(name='perpetualfailure',
         "Framework :: Pyramid",
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
-        ],
-      author='',
-      author_email='',
-      url='',
-      keywords='web wsgi bfg pylons pyramid',
-      packages=find_packages(),
-      include_package_data=True,
-      zip_safe=False,
-      test_suite='perpetualfailure',
-      install_requires=requires,
-      entry_points="""\
-      [paste.app_factory]
-      main = perpetualfailure:main
-      [console_scripts]
-      initialize_perpetualfailure_db = perpetualfailure.scripts.initializedb:main
-      """,
-      )
+    ],
+    author='',
+    author_email='',
+    url='',
+    keywords='web wsgi bfg pylons pyramid',
+    packages=find_packages(),
+    include_package_data=True,
+    zip_safe=False,
+    test_suite='perpetualfailure',
+
+    entry_points="""\
+    [paste.app_factory]
+    main = perpetualfailure:main
+    [console_scripts]
+    initialize_perpetualfailure_db = perpetualfailure.scripts.initializedb:main
+    """,
+
+    install_requires=requires,
+)
