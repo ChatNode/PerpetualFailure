@@ -8,6 +8,8 @@ Getting Started
 
 - $VENV/bin/python setup.py develop
 
+- Install a bcrypt backend if necessary for your system. See <https://pythonhosted.org/passlib/install.html#optional-libraries>
+
 - $VENV/bin/initialize_perpetualfailure_db development.ini
 
 - $VENV/bin/pserve development.ini

@@ -26,7 +26,6 @@ requires = [
     'pyramid-beaker>=0.8',
     # Should be made into optional dependencies
     'psycopg2>=2.5.4',
-    'py-bcrypt>=0.4',
 ]
 
 setup(name='perpetualfailure',
