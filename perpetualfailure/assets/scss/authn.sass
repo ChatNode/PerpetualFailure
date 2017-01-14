@@ -1,5 +1,4 @@
 .login-padding
-  height: 200px;
   // Align alert box to bottom of the padding box
   position: relative
   .alert
@@ -7,3 +6,6 @@
     bottom: 0px
     // Make it fill the entire box
     width: 100%
+  // Make the box only be padded on medium-sized screens or higher
+  @media (min-width: $screen-md-min)
+    height: 200px
