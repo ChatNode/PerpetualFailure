@@ -2,10 +2,13 @@
   // Align alert box to bottom of the padding box
   position: relative
   .alert
-    position: absolute
+    // position: absolute is done in the media query as we only want this on large screens
     bottom: 0px
     // Make it fill the entire box
     width: 100%
   // Make the box only be padded on medium-sized screens or higher
+  height: auto
   @media (min-width: $screen-md-min)
     height: 200px
+    .alert
+      position: absolute
