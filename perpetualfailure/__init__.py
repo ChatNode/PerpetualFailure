@@ -80,11 +80,34 @@ def request_test_permission(request, permission, context=None):
     return request.authz.permits(context, request.authn.effective_principals(request), permission)
 
 
+def sqlalchemy_url_from_environ() -> str:
+    """Return an SQLAlchemy URL based on Docker environment variables"""
+
+    values = dict(
+        user=os.environ.get("POSTGRES_ENV_POSTGRES_USER", "postgres"),
+        password=os.environ.get("POSTGRES_ENV_POSTGRES_PASSWORD",
+                                "mysecretpassword"),
+    )
+    values["db"] = os.environ.get("POSTGRES_ENV_POSTGRES_DB", values["user"])
+
+    return "postgres://{user}:{password}@postgres/{db}".format(**values)
+
+
+def configure_db(settings, prefix="sqlalchemy.", configure_args=dict(),
+                 engine_args=dict()):
+    """Set up the database connection from the given settings dictionary."""
+
+    if settings[prefix + "url"].lower().strip().startswith("environ"):
+        settings[prefix + "url"] = sqlalchemy_url_from_environ()
+
+    engine = engine_from_config(settings, prefix, **engine_args)
+    db.session.configure(bind=engine, **configure_args)
+    db.Base.metadata.bind = engine
+
+
 def main(global_config, **settings):
     ## Prepare database
-    engine = engine_from_config(settings, 'sqlalchemy.')
-    db.session.configure(bind=engine)
-    db.Base.metadata.bind = engine
+    configure_db(settings)
     #
 
     # FIXME: Pyramid whines about no configured authorization policy, probably
