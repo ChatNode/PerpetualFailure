@@ -101,6 +101,9 @@ def configure_db(settings, prefix="sqlalchemy.", configure_args=dict(),
     if settings[prefix + "url"].lower().strip().startswith("environ"):
         settings[prefix + "url"] = sqlalchemy_url_from_environ()
 
+    if settings["beaker.session.url"].lower().strip().startswith("environ"):
+        settings["beaker.session.url"] = sqlalchemy_url_from_environ()
+
     engine = engine_from_config(settings, prefix, **engine_args)
     db.session.configure(bind=engine, **configure_args)
     db.Base.metadata.bind = engine
