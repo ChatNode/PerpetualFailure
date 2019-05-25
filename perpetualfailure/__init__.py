@@ -1,4 +1,5 @@
 from datetime import datetime
+import os
 
 from pyramid.config import Configurator
 from pyramid.decorator import reify
@@ -80,7 +81,7 @@ def request_test_permission(request, permission, context=None):
     return request.authz.permits(context, request.authn.effective_principals(request), permission)
 
 
-def sqlalchemy_url_from_environ() -> str:
+def sqlalchemy_url_from_environ():
     """Return an SQLAlchemy URL based on Docker environment variables"""
 
     values = dict(
